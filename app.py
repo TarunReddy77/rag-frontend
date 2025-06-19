@@ -1,7 +1,7 @@
 import streamlit as st
 import requests
 
-BACKEND_URL = "https://your-backend.onrender.com"  # Replace with your deployed backend URL
+BACKEND_URL = "https://rag-backend-6f1q.onrender.com/"  # Replace with your deployed backend URL
 
 st.title("🧠 RAG Assistant")
 
