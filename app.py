@@ -3,6 +3,13 @@ import requests
 
 BACKEND_URL = "https://rag-backend-6f1q.onrender.com/"  # Replace with your deployed backend URL
 
+# Ping backend to wake it up
+try:
+    requests.get(f"{BACKEND_URL}/ping", timeout=5)
+    st.info("✅ Backend is awake!")
+except Exception:
+    st.warning("⚠️ Backend might be sleeping, please retry shortly.")
+
 st.title("🧠 RAG Assistant")
 
 # Upload section
