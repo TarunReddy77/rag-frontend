@@ -2,8 +2,8 @@ import streamlit as st
 import requests
 
 # Update this to your deployed backend once live
-# BACKEND_URL = "https://rag-backend-84to.onrender.com/"
-BACKEND_URL = "http://127.0.0.1:8000/"
+BACKEND_URL = "https://rag-backend-84to.onrender.com/"
+# BACKEND_URL = "http://127.0.0.1:8000/"
 
 # Wake up the backend (especially for Render free tier)
 try:
