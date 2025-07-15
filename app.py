@@ -1,9 +1,11 @@
 import streamlit as st
 import requests
 
-BACKEND_URL = "https://rag-backend-84to.onrender.com/"  # Replace with your deployed backend URL
+# Update this to your deployed backend once live
+# BACKEND_URL = "https://rag-backend-84to.onrender.com/"
+BACKEND_URL = "http://127.0.0.1:8000/"
 
-# Ping backend to wake it up
+# Wake up the backend (especially for Render free tier)
 try:
     requests.get(f"{BACKEND_URL}/ping", timeout=5)
     st.info("✅ Backend is awake!")
@@ -12,8 +14,8 @@ except Exception:
 
 st.title("🧠 RAG Assistant")
 
-# Upload section
-uploaded_file = st.file_uploader("Upload a document", type=["pdf", "txt", "md", "html"])
+# File Upload Section
+uploaded_file = st.file_uploader("📄 Upload a document", type=["pdf", "txt", "md", "html"])
 
 if uploaded_file:
     st.success(f"Uploaded: {uploaded_file.name}")
@@ -21,21 +23,23 @@ if uploaded_file:
     try:
         response = requests.post(f"{BACKEND_URL}/upload/", files=files)
         if response.status_code == 200:
-            st.success(f"File sent to backend: {response.json().get('filename')}")
+            st.success(f"✅ File parsed: {response.json().get('filename')}")
         else:
-            st.error("❌ Failed to upload file to backend")
+            st.error("❌ Upload failed.")
     except Exception as e:
-        st.error(f"⚠️ Error connecting to backend: {e}")
+        st.error(f"⚠️ Error uploading file: {e}")
 
-# Q&A section
-question = st.text_input("Ask a question about your document:")
+# Q&A Section
+st.markdown("---")
+question = st.text_input("💬 Ask a question about the document:")
 
 if st.button("Get Answer") and question:
     try:
-        res = requests.post(f"{BACKEND_URL}/ask/", json={"question": question})
+        # FIX: backend expects "query" not "question"
+        res = requests.post(f"{BACKEND_URL}/ask/", json={"query": question})
         if res.status_code == 200:
-            st.markdown(f"💬 **Answer:** {res.json().get('answer')}")
+            st.markdown(f"🧠 **Answer:** {res.json().get('answer')}")
         else:
-            st.error("❌ Failed to get an answer from backend.")
+            st.error("❌ Backend returned an error.")
     except Exception as e:
         st.error(f"⚠️ Error contacting backend: {e}")
