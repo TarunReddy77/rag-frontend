@@ -1,7 +1,7 @@
 import streamlit as st
 import requests
 
-BACKEND_URL = "https://rag-backend-6f1q.onrender.com/"  # Replace with your deployed backend URL
+BACKEND_URL = "https://rag-backend-84to.onrender.com/"  # Replace with your deployed backend URL
 
 # Ping backend to wake it up
 try:
