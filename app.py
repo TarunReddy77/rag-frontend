@@ -1,16 +1,21 @@
 import streamlit as st
 import requests
+import os
 
-# Update this to your deployed backend once live
-BACKEND_URL = "https://rag-backend-84to.onrender.com/"
-# BACKEND_URL = "http://127.0.0.1:8000/"
+# Read the backend URL from an environment variable.
+# If the variable is not set, default to the local address for testing.
+BACKEND_URL = os.getenv("BACKEND_URL", "http://127.0.0.1:8000/")
 
 # Wake up the backend (especially for Render free tier)
 try:
     requests.get(f"{BACKEND_URL}/ping", timeout=5)
     st.info("✅ Backend is awake!")
 except Exception:
-    st.warning("⚠️ Backend might be sleeping, please retry shortly.")
+    # Use a more specific message for localhost
+    if "127.0.0.1" in BACKEND_URL:
+        st.warning("⚠️ Cannot connect to local backend. Is it running?")
+    else:
+        st.warning("⚠️ Backend might be sleeping, please retry shortly.")
 
 st.title("🧠 RAG Assistant")
 
